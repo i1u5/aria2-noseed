@@ -163,7 +163,7 @@ void BtSetup::setup(std::vector<std::unique_ptr<Command>>& commands,
     }
     {
       double ratio = option->getAsDouble(PREF_SEED_RATIO);
-      if (ratio > 0.0) {
+      if (ratio >= 0.0) {
         auto cri = make_unique<ShareRatioSeedCriteria>(
             option->getAsDouble(PREF_SEED_RATIO),
             requestGroup->getDownloadContext());
