@@ -1,0 +1,28 @@
+name: CI - stable0
+
+on:
+  push:
+    branches: [ stable0 ]
+    
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Build image
+        run: |
+          ls
+          CURRENT=$(pwd)
+          docker build -t aria2-mingw - < Dockerfile.mingw
+          id=$(docker create aria2-mingw)
+          docker cp $id:/aria2/src/aria2c.exe $CURRENT
+          docker rm -v $id
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Upload artifact
+          path: ./aria2c.exe
